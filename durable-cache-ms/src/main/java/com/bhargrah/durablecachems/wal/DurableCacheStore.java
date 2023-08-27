@@ -1,6 +1,10 @@
-package replicate.wal;
+package com.bhargrah.durablecachems.wal;
 
-import replicate.common.Config;
+
+import com.bhargrah.durablecachems.wal.command.Command;
+import com.bhargrah.durablecachems.wal.command.SetValueCommand;
+import com.bhargrah.durablecachems.wal.common.Config;
+import com.bhargrah.durablecachems.wal.entity.WALEntry;
 
 import java.io.ByteArrayInputStream;
 import java.util.Collection;
@@ -8,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DurableKVStore {
+public class DurableCacheStore {
     //persistent..
     private final Map<String, String> kv = new HashMap<>();
 
@@ -41,7 +45,7 @@ public class DurableKVStore {
     final WriteAheadLog wal;
     private final Config config;
 
-    public DurableKVStore(Config config) {
+    public DurableCacheStore(Config config) {
         this.config = config;
         this.wal = WriteAheadLog.openWAL(config);
         applyLog();
@@ -58,7 +62,7 @@ public class DurableKVStore {
             Command command = deserialize(walEntry);
             if (command instanceof SetValueCommand) {
                 SetValueCommand setValueCommand = (SetValueCommand) command;
-                kv.put(setValueCommand.key, setValueCommand.value);
+                kv.put(setValueCommand.getKey(), setValueCommand.getValue());
             }
         }
     }

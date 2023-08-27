@@ -1,14 +1,16 @@
-package replicate.wal;
+package com.bhargrah.durablecachems.wal;
 
-import org.junit.Test;
-import replicate.common.Config;
-import replicate.common.TestUtils;
+import com.bhargrah.durablecachems.TestUtils;
+import com.bhargrah.durablecachems.wal.common.Config;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
 
-public class DurableKVStoreTest {
+@SpringBootTest
+public class DurableCacheStoreTest {
 
     @Test
     public void shouldRecoverKVStoreStateFromWAL() {
@@ -16,7 +18,7 @@ public class DurableKVStoreTest {
         File walDir = TestUtils.tempDir("distribute/patterns/wal");
 
         System.out.println("File Path : "+walDir.getAbsolutePath());
-        DurableKVStore kv = new DurableKVStore(new Config(walDir.getAbsolutePath()));
+        DurableCacheStore kv = new DurableCacheStore(new Config(walDir.getAbsolutePath()));
         kv.put("title", "Microservices");
         //crash..
         //client got success;
@@ -36,7 +38,7 @@ public class DurableKVStoreTest {
         kv.close();
 
         //simulates process restart. A new instance is created at startup.
-        DurableKVStore recoveredKvStore = new DurableKVStore(new Config(walDir.getAbsolutePath()));
+        DurableCacheStore recoveredKvStore = new DurableCacheStore(new Config(walDir.getAbsolutePath()));
 
         assertEquals(recoveredKvStore.get("title"), "Microservices");
         assertEquals(recoveredKvStore.get("author"), "Martin");
