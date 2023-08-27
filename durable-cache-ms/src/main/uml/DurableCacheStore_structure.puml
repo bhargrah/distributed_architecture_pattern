@@ -1,0 +1,456 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.bhargrah.durablecachems.wal.DurableCacheStore",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_306686519 { 
+   	label=bhargrah
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_600495054 { 
+   	label=durablecachems
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Command393647766[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Command</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   clientId: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   requestNumber: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deserialize(is: byte[]): Command</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deserialize(is: InputStream): Command</TD></TR>
+<TR><TD ALIGN="LEFT" >+ serialize(): byte[]</TD></TR>
+<TR><TD ALIGN="LEFT" ># serialize(os: DataOutputStream)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CompareAndSwap393647766[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CompareAndSwap</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   existingValue: Optional&lt;String&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   key: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   newValue: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deserialize(bytes: byte[]): Command</TD></TR>
+<TR><TD ALIGN="LEFT" ># serialize(os: DataOutputStream)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CompositeCommand393647766[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CompositeCommand</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   commands: List&lt;Command&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(c: Command)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deserialize(bytes: byte[]): Command</TD></TR>
+<TR><TD ALIGN="LEFT" >+ serialize(os: DataOutputStream)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Config1926963904[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Config</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   doAsyncRepair: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   electionTimeoutMs: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   followerTimeoutMs: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   heartBeatIntervalMs: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   logMaxDurationMs: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   maxLogSize: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   serverId: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   servers: List&lt;Peer&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   supportLogGroup: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   walDir: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getServer(leaderId: int): Peer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ numberOfServers(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ supportLogGroup(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ withGroupLog(): Config</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DurableCacheStore1712189497[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DurableCacheStore</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   config: Config [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   kv: Map&lt;String, String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   wal: WriteAheadLog [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- appendLog(key: String, value: String): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >- applyEntries(walEntries: List&lt;WALEntry&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ applyLog()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >- deserialize(walEntry: WALEntry): Command</TD></TR>
+<TR><TD ALIGN="LEFT" >+ get(key: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ put(key: String, value: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ values(): Collection&lt;String&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Header622435513[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Header</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   headerStartOffset: long [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># readEntryId(): Long</TD></TR>
+<TR><TD ALIGN="LEFT" ># readEntryTimestamp(): Long</TD></TR>
+<TR><TD ALIGN="LEFT" ># readEntryType(): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" ># readGeneration(): Long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+InetAddressAndPort791691672[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)InetAddressAndPort</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   address: InetAddress [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   port: Integer [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ compareTo(other: InetAddressAndPort): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ create(hostIp: String, port: Integer): InetAddressAndPort</TD></TR>
+<TR><TD ALIGN="LEFT" >+ parse(key: String): InetAddressAndPort</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+JsonSerDes393647766[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)JsonSerDes</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deserialize(json: byte[], clazz: Class&lt;T&gt;): T</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: byte[], clazz: Class&lt;T&gt;): T</TD></TR>
+<TR><TD ALIGN="LEFT" >+ serialize(obj: Object): byte[]</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(obj: Object): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+LogCleaner1714143801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)LogCleaner</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   config: Config [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   singleThreadedExecutor: ScheduledExecutorService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   wal: WriteAheadLog [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ cleanLogs()</TD></TR>
+<TR><TD ALIGN="LEFT" >- scheduleLogCleaning()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startup()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Peer791691672[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Peer</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   address: InetAddressAndPort [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   clientListenAddress: InetAddressAndPort [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Integer [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SetValueCommand393647766[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SetValueCommand</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   attachLease: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   key: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   value: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deserialize(is: InputStream): SetValueCommand</TD></TR>
+<TR><TD ALIGN="LEFT" >+ serialize(os: DataOutputStream)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TimeBasedLogCleaner1714143801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TimeBasedLogCleaner</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- getSegmentsPast(logMaxDurationMs: Long): List&lt;WALSegment&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- timeElaspedSince(now: long, lastLogEntryTimestamp: long): long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WALEntry1870424264[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WALEntry</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   data: byte[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   entryIndex: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   entryType: EntryType [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   generation: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   timeStamp: long [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># logEntrySize(): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ matchEntry(entry: WALEntry): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ serialize(): ByteBuffer</TD></TR>
+<TR><TD ALIGN="LEFT" >- serializedSize(): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >- sizeOfData(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- sizeOfEntryType(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- sizeOfGeneration(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- sizeOfIndex(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- sizeOfTimestamp(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WALEntryDeserializer1870424264[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WALEntryDeserializer</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   intBuffer: ByteBuffer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   logChannel: FileChannel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   longBuffer: ByteBuffer [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># readEntry(): WALEntry</TD></TR>
+<TR><TD ALIGN="LEFT" ># readEntry(startPosition: long): WALEntry</TD></TR>
+<TR><TD ALIGN="LEFT" >- readFromChannel(channel: FileChannel, buffer: ByteBuffer, filePosition: long): long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readInteger(position: long): Integer</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readLong(position1: long): Long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WALSegment1870424264[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WALSegment</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   entryOffsets: Map&lt;Long, Long&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   file: File [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   fileChannel: FileChannel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   randomAccessFile: RandomAccessFile [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ buildOffsetIndex()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createFileName(startIndex: Long): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ delete()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ flush()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getBaseOffsetFromFileName(fileName: String): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ open(startIndex: Long, walDir: File): WALSegment</TD></TR>
+<TR><TD ALIGN="LEFT" >+ open(file: File): WALSegment</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readAll(): List&lt;WALEntry&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readAt(index: Long): WALEntry</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readFrom(starIndex: Long): List&lt;WALEntry&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ size(): long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ truncate(logIndex: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >- truncateIndex(logIndex: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeEntry(logEntry: WALEntry): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >- writeToChannel(buffer: ByteBuffer): Long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WriteAheadLog1712189497[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WriteAheadLog</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   config: Config [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   logCleaner: TimeBasedLogCleaner [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   openSegment: WALSegment [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   sortedSavedSegments: List&lt;WALSegment&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ exists(entry: WALEntry): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ flush()</TD></TR>
+<TR><TD ALIGN="LEFT" >- getAllSegmentsContainingLogGreaterThan(startIndex: Long): List&lt;WALSegment&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- indexOf(walSegment: WALSegment): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- lastIndex(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- lastOpenSegment(segmentsSortedByIndex: List&lt;WALSegment&gt;, i: int): WALSegment</TD></TR>
+<TR><TD ALIGN="LEFT" >- maybeRoll()</TD></TR>
+<TR><TD ALIGN="LEFT" >- newLogCleaner(config: Config): TimeBasedLogCleaner</TD></TR>
+<TR><TD ALIGN="LEFT" >- openAllSegments(walDir: File): List&lt;WALSegment&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ openWAL(config: Config): WriteAheadLog</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readAll(): List&lt;WALEntry&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readAt(index: Long): WALEntry</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readFrom(startIndex: Long): List&lt;WALEntry&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- readWalEntriesFrom(startIndex: Long, segments: List&lt;WALSegment&gt;): List&lt;WALEntry&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeAndDeleteSegment(walSegment: WALSegment)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ truncate(logIndex: Long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeEntry(entry: WALEntry): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeEntry(data: byte[]): Long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeEntry(data: byte[], generation: long): Long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Command393647766 -> CompareAndSwap393647766[arrowhead=none, arrowtail=empty, dir=both];
+Command393647766 -> CompositeCommand393647766[arrowhead=none, arrowtail=empty, dir=both];
+Command393647766 -> SetValueCommand393647766[arrowhead=none, arrowtail=empty, dir=both];
+CompositeCommand393647766 -> Command393647766[label="commands
+[0..*]"];
+Config1926963904 -> Peer791691672[label="servers
+[0..*]"];
+DurableCacheStore1712189497 -> Config1926963904[label="config
+[0..1]"];
+DurableCacheStore1712189497 -> WriteAheadLog1712189497[label="wal
+[0..1]"];
+LogCleaner1714143801 -> Config1926963904[label="config
+[0..1]"];
+LogCleaner1714143801 -> TimeBasedLogCleaner1714143801[arrowhead=none, arrowtail=empty, dir=both];
+LogCleaner1714143801 -> WriteAheadLog1712189497[label="wal
+[0..1]"];
+Peer791691672 -> InetAddressAndPort791691672[label="address
+[0..1]"];
+Peer791691672 -> InetAddressAndPort791691672[label="clientListenAddress
+[0..1]"];
+WriteAheadLog1712189497 -> Config1926963904[label="config
+[0..1]"];
+WriteAheadLog1712189497 -> TimeBasedLogCleaner1714143801[label="logCleaner
+[0..1]"];
+WriteAheadLog1712189497 -> WALSegment1870424264[label="openSegment
+[0..1]"];
+WriteAheadLog1712189497 -> WALSegment1870424264[label="sortedSavedSegments
+[0..*]"];
+    
+}
+@enduml

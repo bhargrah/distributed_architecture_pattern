@@ -1,20 +1,21 @@
-package replicate.wal;
+package com.bhargrah.durablecachems;
 
-import replicate.common.Config;
-
+import com.bhargrah.durablecachems.wal.DurableCacheStore;
+import com.bhargrah.durablecachems.wal.common.Config;
 import java.io.File;
 
-public class Main {
+public class DurableCacheTestClient {
 
     public static final String DIR = "/Users/rahulbhargava/Desktop/coding_pad/distributed_architecture_pattern/replicate/out/";
     public static final String PATH = "distribute/patterns/wal";
 
   public static void main(String[] args) throws InterruptedException {
 
-    File walDir = new File(DIR,PATH);
-    walDir.mkdirs();
+    File walDir = new File(DIR,PATH); walDir.mkdirs();
+    Config walConfig = new Config(walDir.getAbsolutePath());
 
-    DurableKVStore kv = new DurableKVStore(new Config(walDir.getAbsolutePath()));
+    DurableCacheStore kv = new DurableCacheStore(walConfig);
+
     kv.put("title", "Microservices");
     // crash..
     // client got success;
@@ -34,13 +35,13 @@ public class Main {
     kv.close();
 
     // simulates process restart. A new instance is created at startup.
-    DurableKVStore recoveredKvStore = new DurableKVStore(new Config(walDir.getAbsolutePath()));
+    DurableCacheStore recoveredKvStore = new DurableCacheStore(new Config(walDir.getAbsolutePath()));
     recoveredKvStore.get("architect");
 
     System.out.println(recoveredKvStore.get("architect"));
     recoveredKvStore.close();
 
-    shutdown();
+    //shutdown();
   }
 
 

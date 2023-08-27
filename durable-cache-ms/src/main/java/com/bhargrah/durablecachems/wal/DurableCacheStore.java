@@ -49,7 +49,6 @@ public class DurableCacheStore {
         this.config = config;
         this.wal = WriteAheadLog.openWAL(config);
         applyLog();
-        //Assignment 1: applyLog at startup.
     }
 
     public void applyLog() {
