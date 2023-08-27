@@ -10,8 +10,8 @@ Repo will have below structure
 # Repo Structure 
 
 ### Replicate 
- - This repo will have all the code samples related to distributed algorithms. 
- - ALl the algos needs to be studies from this repo. 
+ - This repo has all the code samples related to distributed algorithms. 
+ - All the algos needs to be studies from this repo. 
 
 ### Durable Cache MS
  - This repo will have implementation of algorithms that are discussed in Replicate repo.
