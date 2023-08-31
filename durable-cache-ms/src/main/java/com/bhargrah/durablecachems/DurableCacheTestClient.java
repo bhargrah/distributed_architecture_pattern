@@ -3,15 +3,19 @@ package com.bhargrah.durablecachems;
 import com.bhargrah.durablecachems.wal.DurableCacheStore;
 import com.bhargrah.durablecachems.wal.common.Config;
 import java.io.File;
+import java.util.Random;
 
 public class DurableCacheTestClient {
 
-    public static final String DIR = "/Users/rahulbhargava/Desktop/coding_pad/distributed_architecture_pattern/replicate/out/";
-    public static final String PATH = "distribute/patterns/wal";
+  public static final Random random = new Random();
+  private static final String DIR = "/Users/rahulbhargava/Desktop/coding_pad/distributed_architecture_pattern/thumbstone/";
+  private static final String PATH = "dump/wal";
 
   public static void main(String[] args) throws InterruptedException {
 
-    File walDir = new File(DIR,PATH); walDir.mkdirs();
+    File walDir = new File(DIR,PATH);//+ random.nextInt(1000000));
+    walDir.mkdirs();
+    //walDir.deleteOnExit();
     Config walConfig = new Config(walDir.getAbsolutePath());
 
     DurableCacheStore kv = new DurableCacheStore(walConfig);
@@ -38,7 +42,7 @@ public class DurableCacheTestClient {
     DurableCacheStore recoveredKvStore = new DurableCacheStore(new Config(walDir.getAbsolutePath()));
     recoveredKvStore.get("architect");
 
-    System.out.println(recoveredKvStore.get("architect"));
+    System.out.println(recoveredKvStore.get("1"));
     recoveredKvStore.close();
 
     //shutdown();
