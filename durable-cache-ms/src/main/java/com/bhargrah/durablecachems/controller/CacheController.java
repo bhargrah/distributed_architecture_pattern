@@ -3,6 +3,7 @@ package com.bhargrah.durablecachems.controller;
 import com.bhargrah.durablecachems.entity.CacheEntry;
 import com.bhargrah.durablecachems.service.CacheDurableService;
 import com.bhargrah.durablecachems.service.CacheService;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,8 @@ public class CacheController {
     @GetMapping("lookup/cache/durable/{productKey}")
     @ResponseStatus(HttpStatus.OK)
     public String lookupFromDurableCache(@PathVariable("productKey") String productKey){
-        return cacheDurableService.lookupFromDurableCache(productKey);
+        String result = cacheDurableService.lookupFromDurableCache(productKey);
+        return Strings.isNullOrEmpty(result) ? "No product found" : result;
     }
 
     @PostMapping("persist/durable")
@@ -37,7 +39,8 @@ public class CacheController {
     @GetMapping("lookup/cache/{productKey}")
     @ResponseStatus(HttpStatus.OK)
     public String lookupFromCache(@PathVariable("productKey") String productKey){
-        return cacheService.lookupFromCache(productKey);
+        String result = cacheService.lookupFromCache(productKey);
+        return Strings.isNullOrEmpty(result) ? "No product found" : result;
     }
 
     @PostMapping("persist")
