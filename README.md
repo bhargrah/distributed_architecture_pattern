@@ -16,3 +16,9 @@ Repo will have below structure
 ### Durable Cache MS
  - This repo will have implementation of algorithms that are discussed in Replicate repo.
  - As the very first task , **Write Ahead Log** (WAL) is implemented.  
+
+
+## Write Ahead Log  - Usage 
+ - Consensus algorithm like Zookeeper and RAFT is similar to write ahead log. 
+ - Kafka follows similar structure as that of commit logs in database.
+ - Every database like Postgres or Cassandra implements write ahead log. 

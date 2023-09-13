@@ -150,14 +150,11 @@ public class TestUtils {
         List<InetAddressAndPort> addresses = TestUtils.createNAddresses(clusterSize);
         List<InetAddressAndPort> clientInterfaceAddresses = TestUtils.createNAddresses(clusterSize);
         for (int i = 0; i < clusterSize; i++) {
-            //public static void main(String[]args) {
             Config config = new Config(TestUtils.tempDir("clusternode_" + i).getAbsolutePath());
             config.setServerId(i);
             String nodeName = nodeNames.get(i);
             T replica =  factory.create(nodeName, config, clock, clientInterfaceAddresses.get(i), addresses.get(i), addresses);
             replica.start();
-
-            //}
             clusterNodes.put(nodeName, replica);
         }
         return clusterNodes;

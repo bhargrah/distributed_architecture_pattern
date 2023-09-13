@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
     All the communication between Replicas is done by message passing.
 */
 
-
+@SuppressWarnings("All")
 public abstract class Replica {
     private static Logger logger = LogManager.getLogger(Replica.class);
     private final Config config;

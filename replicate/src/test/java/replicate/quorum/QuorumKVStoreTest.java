@@ -26,8 +26,7 @@ public class QuorumKVStoreTest extends ClusterTest<QuorumKVStore> {
 
     @Override
     public void setUp() throws IOException {
-        this.nodes = TestUtils.startCluster(Arrays.asList("athens",
-                        "byzantium", "cyrene"),
+        this.nodes = TestUtils.startCluster(Arrays.asList("athens", "byzantium", "cyrene"),
                 (name, config, clock, clientConnectionAddress, peerConnectionAddress, peerAddresses) -> new QuorumKVStore(name, config, clock, clientConnectionAddress, peerConnectionAddress, peerAddresses));
 
         athens = nodes.get("athens");
@@ -45,9 +44,9 @@ public class QuorumKVStoreTest extends ClusterTest<QuorumKVStore> {
         athens.dropMessagesTo(byzantium);
 
         InetAddressAndPort athensAddress = athens.getClientConnectionAddress();
+
         KVClient kvClient = new KVClient();
-        var setValueResponse = kvClient.setValue(athensAddress, "title",
-                "Microservices");
+        var setValueResponse = kvClient.setValue(athensAddress, "title", "Microservices");
         assertResponseSuccess(setValueResponse);
 
         //how to make sure replicas are in sync?
@@ -66,37 +65,24 @@ public class QuorumKVStoreTest extends ClusterTest<QuorumKVStore> {
     public void quorumReadRepairUpdatesStaleValues() throws IOException {
         //setup initial value.
         KVClient kvClient = new KVClient();
-        var initialResponse =
-                kvClient.setValue(athens.getClientConnectionAddress(),
-                        "title", "Initial title");
+        var initialResponse = kvClient.setValue(athens.getClientConnectionAddress(), "title", "Initial title");
         assertResponseSuccess(initialResponse);
-
         athens.dropMessagesTo(byzantium);
 
-        var updatedResponse =
-                kvClient.setValue(athens.getClientConnectionAddress(), "title", "Updated title");
+        var updatedResponse = kvClient.setValue(athens.getClientConnectionAddress(), "title", "Updated title");
         assertResponseSuccess(updatedResponse);
 
         QuorumKVStore[] nodes = {athens, byzantium, cyrene};
-        String[] initialExpectedTitles
-                = {"Updated title", "Initial title", "Updated title"};
+        String[] initialExpectedTitles = {"Updated title", "Initial title", "Updated title"};
         assertTitleValues(nodes, initialExpectedTitles);
 
         //response from cyrene and byzantium.
-        var titleResponse =
-                kvClient.getValue(cyrene.getClientConnectionAddress(),
-                        "title");
+        var titleResponse = kvClient.getValue(cyrene.getClientConnectionAddress(), "title");
         assertResponseValue(titleResponse, "Updated title");
 
-        String[] expectedTitles
-                = {"Updated title", "Updated title", "Updated title"};
+        String[] expectedTitles = {"Updated title", "Updated title", "Updated title"};
         assertTitleValues(nodes, expectedTitles);
     }
-
-    private static String valueFrom(NetworkClient.Response<GetValueResponse> titleResponse) {
-        return titleResponse.getResult().getValue().getValue();
-    }
-
 
     @Test
     public void quorumReadFailsWhenSynchronousReadRepairFails() throws IOException {
@@ -104,8 +90,7 @@ public class QuorumKVStoreTest extends ClusterTest<QuorumKVStore> {
         athens.dropMessagesTo(byzantium);
 
         KVClient kvClient = new KVClient();
-        var setValueResponse = kvClient.setValue(athens.getClientConnectionAddress(),
-                "title", "Microservices");
+        var setValueResponse = kvClient.setValue(athens.getClientConnectionAddress(), "title", "Microservices");
         assertResponseSuccess(setValueResponse);
 
         assertTitleEquals(athens, "Microservices");
@@ -114,32 +99,12 @@ public class QuorumKVStoreTest extends ClusterTest<QuorumKVStore> {
 
         cyrene.dropMessagesTo(athens);
         cyrene.dropAfterNMessagesTo(byzantium, 1);
+
         //cyrene will read from itself and byzantium. byzantium has stale value, so it will try read-repair.
         //but read-repair call fails.
-        var titleResponse = kvClient.getValue(cyrene.getClientConnectionAddress(),
-                "title");
+        var titleResponse = kvClient.getValue(cyrene.getClientConnectionAddress(), "title");
         assertResponseFailure(titleResponse);
         assertTitleEquals(byzantium, "");
-    }
-
-    private void assertTitleValues(QuorumKVStore[] nodes, String[] expectedTitles) {
-        assertEquals(nodes.length, expectedTitles.length);
-
-        for (int i = 0; i < nodes.length; i++) {
-            assertEquals(expectedTitles[i], nodes[i].get("title").getValue());
-        }
-    }
-
-    private void assertTitleEquals(QuorumKVStore quorumKVStore, String microservices) {
-        assertEquals(microservices, quorumKVStore.get("title").getValue());
-    }
-
-    private static void assertResponseSuccess(NetworkClient.Response<?> response) {
-        assertTrue(response.isSuccess());
-    }
-
-    private static void assertResponseFailure(NetworkClient.Response<?> response) {
-        assertTrue(response.isError());
     }
 
     @Test

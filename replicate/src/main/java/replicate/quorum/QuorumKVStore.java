@@ -41,6 +41,8 @@ import java.util.concurrent.CompletableFuture;
  *                               +--message3------->         |
  *                                                 +---------+
  */
+
+@SuppressWarnings("All")
 public class QuorumKVStore extends Replica {
     private static Logger logger = LogManager.getLogger(QuorumKVStore.class);
     public static final int firstGeneration = 1;

@@ -9,7 +9,7 @@ public class DurableCacheTestClient {
 
   public static final Random random = new Random();
   private static final String DIR = "/Users/rahulbhargava/Desktop/coding_pad/distributed_architecture_pattern/thumbstone/";
-  private static final String PATH = "dump/wal";
+  private static final String PATH = "dump/test/wal";
 
   public static void main(String[] args) throws InterruptedException {
 
